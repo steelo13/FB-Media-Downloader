@@ -262,9 +262,10 @@ const App: React.FC = () => {
             <div className="flex gap-10 text-sm font-bold text-slate-400">
               <button onClick={() => setView('downloader')} className="hover:text-[#1877F2] transition-colors">Downloader</button>
               <button onClick={() => setView('premium')} className="hover:text-[#1877F2] transition-colors">Premium Suite</button>
-              <a href="#" className="hover:text-[#1877F2] transition-colors">Legal</a>
+              <a href="#" className="hover:text-[#1877F2] transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-[#1877F2] transition-colors">Terms of Service</a>
             </div>
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">© 2024 Premium Downloader Inc.</p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">© 2025 Premium Downloader Inc.</p>
           </div>
           <div className="mt-16 p-10 glass rounded-[2.5rem] text-center text-xs text-slate-400 border border-white leading-relaxed">
             <strong className="text-slate-600">Disclaimer:</strong> This tool is intended for personal archiving of public content. We do not host, store, or redistribute any data. All media remains the intellectual property of its respective creators and is streamed directly from source CDN.
