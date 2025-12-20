@@ -7,6 +7,8 @@ export enum MediaType {
   STORY = 'STORY'
 }
 
+export type ViewState = 'downloader' | 'premium';
+
 export interface MediaOption {
   quality: string;
   url: string;
@@ -23,9 +25,12 @@ export interface ExtractionResult {
   description?: string;
 }
 
-export interface AIAnalysis {
-  confidence: number;
-  detectedType: string;
-  summary: string;
-  safetyRating: string;
+export interface PremiumTool {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  category: 'moderation' | 'analytics' | 'content';
+  promptTemplate: string;
+  inputPlaceholder: string;
 }
