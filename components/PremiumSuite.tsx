@@ -34,6 +34,15 @@ const TOOLS: PremiumTool[] = [
     inputPlaceholder: 'e.g. Urban organic gardening for beginners'
   },
   {
+    id: 'besttime',
+    title: 'Best Time to Post Analyzer',
+    description: 'Data-driven suggestions for when your specific audience is most active and likely to engage.',
+    icon: '⏰',
+    category: 'analytics',
+    promptTemplate: 'Analyze the best posting times for Facebook. Break it down by "Peak Engagement Hours", "Best Days of the Week", and "Optimal Frequency" for this niche: ',
+    inputPlaceholder: 'e.g. Professional B2B software consulting'
+  },
+  {
     id: 'toxic',
     title: 'Toxic Comment Detector',
     description: 'Scan comments for toxicity, harassment, or hidden bullying patterns.',
@@ -107,34 +116,69 @@ const TOOLS: PremiumTool[] = [
   },
   {
     id: 'improver',
-    title: 'Caption Improver',
-    description: 'Rewrite bland captions into punchy, clear, and engaging Facebook posts.',
-    icon: '🪄',
+    title: 'Image Caption Improver',
+    description: 'Rewrite bland captions into punchy, clear, and engaging Facebook posts for your photos.',
+    icon: '🖼️',
     category: 'content',
-    promptTemplate: 'Improve this caption. Provide a "Before & After" comparison, followed by a list of "Specific Improvements" made to readability and flow for: ',
-    inputPlaceholder: 'Paste your "boring" caption here...'
+    promptTemplate: 'Improve this photo caption. Provide 3 variations: "The Storyteller", "The Provocative Question", and "The Quick Insight". Highlight the specific emotion target for each: ',
+    inputPlaceholder: 'Paste your basic photo description or draft caption here...'
+  },
+  {
+    id: 'reposter',
+    title: 'Repost Content Rewriter',
+    description: 'Breathe new life into old content by rewriting it with a fresh angle and tone.',
+    icon: '🔄',
+    category: 'content',
+    promptTemplate: 'Rewrite the following post to sound fresh and new. Provide 2 versions: "Professional/Informative" and "Relatable/Casual". Ensure the core value is preserved: ',
+    inputPlaceholder: 'Paste an old post you want to reuse...'
+  },
+  {
+    id: 'meme',
+    title: 'Facebook Meme Generator',
+    description: 'Generate funny, relatable, and high-shareability captions for your meme images.',
+    icon: '🤡',
+    category: 'content',
+    promptTemplate: 'Generate 5 funny and relatable meme captions for the following context or image description. Use popular Facebook meme formats if applicable: ',
+    inputPlaceholder: 'e.g. A cat looking stressed at a computer'
+  },
+  {
+    id: 'scheduler',
+    title: 'Facebook Post Scheduler',
+    description: 'Organize your post ideas into a strategic batching sequence for consistent reach.',
+    icon: '🕙',
+    category: 'analytics',
+    promptTemplate: 'Create a strategic posting sequence for these ideas. Suggest "Optimal Order", "Interval Timing", and "Cross-Promotion Tips" in a structured list for: ',
+    inputPlaceholder: 'List 3-5 post ideas or topics...'
+  },
+  {
+    id: 'calendar',
+    title: 'Weekly Calendar Builder',
+    description: 'Build a full 7-day mix of content types to keep your page active and varied.',
+    icon: '🗓️',
+    category: 'analytics',
+    promptTemplate: 'Build a 7-day Facebook content calendar. For each day, list "Post Type", "Topic Suggestion", and "Primary Goal". Use bold headers for each day: ',
+    inputPlaceholder: 'e.g. Fitness coaching for busy moms'
   }
 ];
 
-// Helper to render text with basic styling without a markdown library
 const StructuredResultRenderer: React.FC<{ text: string }> = ({ text }) => {
   const lines = text.split('\n');
   
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {lines.map((line, index) => {
         const trimmed = line.trim();
-        if (!trimmed) return <div key={index} className="h-2" />;
+        if (!trimmed) return <div key={index} className="h-4" />;
 
-        // Header detection (e.g., "Week 1:", "## Header", "Header:")
-        const isHeader = trimmed.endsWith(':') || trimmed.startsWith('##') || /^[A-Z\s]+$/.test(trimmed);
+        // Header detection (Headers like "Week 1:", "Monday:", "## Header", "Category:")
+        const isHeader = trimmed.endsWith(':') || trimmed.startsWith('##') || /^[A-Z\s]{4,}$/.test(trimmed) || trimmed.startsWith('Day ') || trimmed.startsWith('Option ');
         
         // List item detection
-        const isListItem = trimmed.startsWith('-') || trimmed.startsWith('•') || /^\d+\./.test(trimmed);
+        const isListItem = trimmed.startsWith('-') || trimmed.startsWith('•') || /^\d+[\.\)]/.test(trimmed);
 
         if (isHeader) {
           return (
-            <h4 key={index} className="text-lg font-black text-slate-900 mt-6 mb-2 border-l-4 border-[#1877F2] pl-3">
+            <h4 key={index} className="text-xl font-black text-slate-900 mt-10 mb-4 border-l-4 border-[#1877F2] pl-4 bg-slate-50 py-2 rounded-r-lg">
               {trimmed.replace(/^#+\s*/, '')}
             </h4>
           );
@@ -142,17 +186,17 @@ const StructuredResultRenderer: React.FC<{ text: string }> = ({ text }) => {
 
         if (isListItem) {
           return (
-            <div key={index} className="flex gap-3 pl-2 py-0.5">
-              <span className="text-[#1877F2] font-bold">•</span>
+            <div key={index} className="flex gap-4 pl-4 py-2 bg-white rounded-xl border border-slate-50 shadow-sm">
+              <span className="text-[#1877F2] font-black mt-0.5">→</span>
               <p className="text-slate-700 font-medium leading-relaxed flex-1">
-                {renderBoldText(trimmed.replace(/^[-•]\s*/, '').replace(/^\d+\.\s*/, ''))}
+                {renderBoldText(trimmed.replace(/^[-•]\s*/, '').replace(/^\d+[\.\)]\s*/, ''))}
               </p>
             </div>
           );
         }
 
         return (
-          <p key={index} className="text-slate-700 font-medium leading-relaxed">
+          <p key={index} className="text-slate-600 font-medium leading-relaxed px-2">
             {renderBoldText(trimmed)}
           </p>
         );
@@ -161,7 +205,6 @@ const StructuredResultRenderer: React.FC<{ text: string }> = ({ text }) => {
   );
 };
 
-// Simple bold text renderer for content between **
 const renderBoldText = (text: string) => {
   const parts = text.split(/(\*\*.*?\*\*)/g);
   return parts.map((part, i) => {
@@ -216,7 +259,7 @@ const PremiumSuite: React.FC = () => {
             </div>
             <button 
               onClick={() => { setActiveTool(null); setResult(''); setInput(''); }}
-              className="p-3 hover:bg-slate-100 rounded-2xl text-slate-400 transition-all"
+              className="p-3 hover:bg-slate-100 rounded-2xl text-slate-400 transition-all hover:text-red-500"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
@@ -227,7 +270,7 @@ const PremiumSuite: React.FC = () => {
           <div className="space-y-6">
             <div className="relative group">
               <textarea
-                className="w-full h-32 p-6 bg-white/50 border-2 border-slate-100 rounded-3xl focus:border-[#1877F2] focus:ring-0 outline-none transition-all text-lg font-medium resize-none placeholder:text-slate-300 group-hover:border-slate-200"
+                className="w-full h-32 p-6 bg-white/50 border-2 border-slate-100 rounded-3xl focus:border-[#1877F2] focus:ring-0 outline-none transition-all text-lg font-medium resize-none placeholder:text-slate-300 group-hover:border-slate-200 shadow-sm"
                 placeholder={activeTool.inputPlaceholder}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -240,14 +283,14 @@ const PremiumSuite: React.FC = () => {
             <button
               onClick={runTool}
               disabled={loading || !input.trim()}
-              className="w-full h-16 glossy-button text-white font-bold text-lg rounded-2xl flex items-center justify-center gap-3 shine-effect disabled:opacity-50 shadow-lg shadow-blue-100"
+              className="w-full h-16 glossy-button text-white font-bold text-lg rounded-2xl flex items-center justify-center gap-3 shine-effect disabled:opacity-50 shadow-lg shadow-blue-100 active:scale-95"
             >
               {loading ? (
                 <div className="flex gap-1.5 items-center">
                   <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce"></div>
                   <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce [animation-delay:0.2s]"></div>
                   <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce [animation-delay:0.4s]"></div>
-                  <span className="ml-2">Analyzing...</span>
+                  <span className="ml-2">Crafting Strategy...</span>
                 </div>
               ) : (
                 <>
@@ -260,22 +303,24 @@ const PremiumSuite: React.FC = () => {
             </button>
 
             {result && (
-              <div className="mt-10 animate-in slide-in-from-top-4 duration-500">
-                <div className="p-1 glass bg-white/40 rounded-[2.5rem] border-white overflow-hidden shadow-sm">
-                   <div className="bg-white/90 p-8 md:p-12 rounded-[2.3rem] shadow-inner">
-                    <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-50">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Generated Strategy</span>
+              <div className="mt-10 animate-in slide-in-from-top-6 duration-700">
+                <div className="p-1 glass bg-white/40 rounded-[2.8rem] border-white overflow-hidden shadow-2xl">
+                   <div className="bg-white/95 p-8 md:p-14 rounded-[2.6rem] shadow-inner">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 pb-6 border-b border-slate-100 gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                        <div>
+                          <span className="text-xs font-black text-slate-400 uppercase tracking-[0.25em] block">Report Generated</span>
+                          <span className="text-[10px] text-slate-300 font-bold uppercase tracking-wider">Analysis complete • Gemini Intelligence</span>
+                        </div>
                       </div>
                       <button 
                         onClick={() => {
                           navigator.clipboard.writeText(result);
-                          alert('Content copied to clipboard!');
                         }}
-                        className="flex items-center gap-2 text-xs font-bold text-[#1877F2] hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors"
+                        className="flex items-center gap-2 text-xs font-bold text-[#1877F2] hover:bg-blue-50 px-5 py-2.5 rounded-xl transition-all active:scale-95 border border-blue-50 group"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                         </svg>
                         Copy Report
@@ -284,9 +329,9 @@ const PremiumSuite: React.FC = () => {
                     
                     <StructuredResultRenderer text={result} />
                     
-                    <div className="mt-12 pt-8 border-t border-slate-50 flex items-center justify-center">
-                       <p className="text-[10px] text-slate-300 font-bold uppercase tracking-widest">
-                         End of Strategy Report • Generated by FB Media Downloader Premium
+                    <div className="mt-16 pt-8 border-t border-slate-50 flex items-center justify-center">
+                       <p className="text-[10px] text-slate-300 font-black uppercase tracking-[0.3em]">
+                         End of Content Intelligence Report
                        </p>
                     </div>
                   </div>
