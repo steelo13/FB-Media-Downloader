@@ -4,6 +4,8 @@ import Navbar from './components/Navbar';
 import Features from './components/Features';
 import ResultCard from './components/ResultCard';
 import PremiumSuite from './components/PremiumSuite';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
 import { ExtractionResult, ViewState } from './types';
 import { analyzeLink } from './services/geminiService';
 
@@ -99,17 +101,17 @@ const App: React.FC = () => {
     setClipboardSuggestion(null);
   };
 
-  return (
-    <div 
-      className="min-h-screen pb-20"
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
-    >
-      <Navbar currentView={view} setView={setView} />
-
-      <main className="max-w-6xl mx-auto px-4 py-16 md:py-28">
-        {view === 'downloader' ? (
+  const renderContent = () => {
+    switch (view) {
+      case 'premium':
+        return <PremiumSuite />;
+      case 'privacy':
+        return <PrivacyPolicy onBack={() => setView('downloader')} />;
+      case 'terms':
+        return <TermsOfService onBack={() => setView('downloader')} />;
+      case 'downloader':
+      default:
+        return (
           <>
             <div className="text-center max-w-3xl mx-auto mb-16 space-y-6">
               <div className="inline-block px-4 py-1.5 bg-blue-50 text-[#1877F2] text-xs font-bold rounded-full uppercase tracking-widest border border-blue-100 mb-2">
@@ -247,9 +249,21 @@ const App: React.FC = () => {
               <ResultCard result={result} onReset={reset} />
             )}
           </>
-        ) : (
-          <PremiumSuite />
-        )}
+        );
+    }
+  };
+
+  return (
+    <div 
+      className="min-h-screen pb-20"
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
+    >
+      <Navbar currentView={view} setView={setView} />
+
+      <main className="max-w-6xl mx-auto px-4 py-16 md:py-28">
+        {renderContent()}
 
         <footer className="mt-40 pt-16 border-t border-slate-200">
           <div className="flex flex-col md:flex-row justify-between items-center gap-10">
@@ -262,8 +276,8 @@ const App: React.FC = () => {
             <div className="flex gap-10 text-sm font-bold text-slate-400">
               <button onClick={() => setView('downloader')} className="hover:text-[#1877F2] transition-colors">Downloader</button>
               <button onClick={() => setView('premium')} className="hover:text-[#1877F2] transition-colors">Premium Suite</button>
-              <a href="#" className="hover:text-[#1877F2] transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-[#1877F2] transition-colors">Terms of Service</a>
+              <button onClick={() => setView('privacy')} className="hover:text-[#1877F2] transition-colors">Privacy Policy</button>
+              <button onClick={() => setView('terms')} className="hover:text-[#1877F2] transition-colors">Terms of Service</button>
             </div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">© 2025 Premium Downloader Inc.</p>
           </div>

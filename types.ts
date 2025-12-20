@@ -7,7 +7,7 @@ export enum MediaType {
   STORY = 'STORY'
 }
 
-export type ViewState = 'downloader' | 'premium';
+export type ViewState = 'downloader' | 'premium' | 'privacy' | 'terms';
 
 export interface MediaOption {
   quality: string;
