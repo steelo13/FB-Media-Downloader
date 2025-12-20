@@ -24,7 +24,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setView, darkMode, toggleD
               </svg>
             </div>
             <span className="text-xl font-extrabold tracking-tight dark:text-white">
-              FB Media <span className="text-[#1877F2]">Downloader</span>
+              Swift FB <span className="text-[#1877F2]">Downloader</span>
             </span>
           </div>
           <div className="flex items-center gap-4 md:gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">

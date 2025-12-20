@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Features from './components/Features';
@@ -334,7 +335,7 @@ const App: React.FC = () => {
               <div className="w-12 h-12 glossy-button rounded-xl flex items-center justify-center text-white shadow-lg">
                 <span className="font-black text-2xl">F</span>
               </div>
-              <span className="font-[900] text-black dark:text-white text-2xl tracking-tighter">FB Media <span className="text-[#1877F2]">Downloader</span></span>
+              <span className="font-[900] text-black dark:text-white text-2xl tracking-tighter">Swift FB <span className="text-[#1877F2]">Downloader</span></span>
             </div>
             <div className="flex gap-12 text-[15px] font-black text-slate-700 dark:text-slate-300">
               <button onClick={() => setView('downloader')} className="hover:text-[#1877F2] transition-colors">Downloader</button>
