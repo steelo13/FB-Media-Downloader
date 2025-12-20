@@ -12,7 +12,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Create a multi-week content schedule for your next big product or event launch.',
     icon: '📅',
     category: 'analytics',
-    promptTemplate: 'Generate a 4-week Facebook campaign timeline for: ',
+    promptTemplate: 'Generate a highly structured 4-week Facebook campaign timeline. Use clear week-by-week headers, bullet points for daily tasks, and bold text for key milestones for: ',
     inputPlaceholder: 'e.g. Launching a new eco-friendly skincare line'
   },
   {
@@ -21,7 +21,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Identify trends and content types that are currently getting high engagement in your niche.',
     icon: '🚀',
     category: 'analytics',
-    promptTemplate: 'Analyze and suggest top-performing Facebook content strategies for this niche: ',
+    promptTemplate: 'Provide a structured report on top-performing Facebook content strategies. Categorize by "Content Types", "Trending Topics", and "Engagement Hooks". Use bullet points for each category for the niche: ',
     inputPlaceholder: 'e.g. High-performance gaming PCs'
   },
   {
@@ -30,7 +30,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Predict likely target segments and interests based on your product or page topic.',
     icon: '📊',
     category: 'analytics',
-    promptTemplate: 'Predict audience demographics and interests for a Facebook page focused on: ',
+    promptTemplate: 'Analyze and list predicted audience segments. Use headers for "Primary Demographics", "Key Interests", and "Behavioral Traits". Ensure each point is clearly separated for: ',
     inputPlaceholder: 'e.g. Urban organic gardening for beginners'
   },
   {
@@ -39,7 +39,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Scan comments for toxicity, harassment, or hidden bullying patterns.',
     icon: '☢️',
     category: 'moderation',
-    promptTemplate: 'Analyze this comment for toxicity and provide a risk score (0-100%): ',
+    promptTemplate: 'Analyze the following comment for toxicity. Provide a "Toxicity Score (0-100%)", "Risk Category", and "Recommended Action" in a clear, labeled format: ',
     inputPlaceholder: 'Paste a suspicious comment here...'
   },
   {
@@ -48,7 +48,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Batch-analyze community feelings towards your latest post or announcement.',
     icon: '🎭',
     category: 'moderation',
-    promptTemplate: 'Determine the emotional sentiment (Positive, Neutral, Negative) and key emotions in this text: ',
+    promptTemplate: 'Break down the sentiment of the following feedback. Provide a "General Sentiment" header, followed by a list of "Key Emotional Drivers" and "Common Feedback Themes": ',
     inputPlaceholder: 'Paste post comments or feedback here...'
   },
   {
@@ -57,7 +57,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Detect common bot patterns, phishing links, and repetitive spam accounts.',
     icon: '🤖',
     category: 'moderation',
-    promptTemplate: 'Identify spam markers or bot-like behavior in this content: ',
+    promptTemplate: 'Evaluate the text for bot activity. Use headers like "Spam Probability", "Identified Patterns", and "Safety Warning" for: ',
     inputPlaceholder: 'Paste suspicious text or links...'
   },
   {
@@ -66,7 +66,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Instantly check if a post violates standard Facebook Group rules or community standards.',
     icon: '⚖️',
     category: 'moderation',
-    promptTemplate: 'Check if this post violates typical FB Community Standards or Group rules: ',
+    promptTemplate: 'Verify this content against community standards. List "Potential Violations", "Standard Rule References", and a "Final Verdict" in clear sections for: ',
     inputPlaceholder: 'Paste the post content to check...'
   },
   {
@@ -75,7 +75,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Craft high-engagement captions designed specifically for the Facebook algorithm.',
     icon: '✍️',
     category: 'content',
-    promptTemplate: 'Write 3 viral Facebook captions for: ',
+    promptTemplate: 'Generate 3 distinct viral Facebook captions. Label them "Option 1: Engagement Focused", "Option 2: Value Driven", and "Option 3: Short & Punchy". Use clear spacing between options for: ',
     inputPlaceholder: 'e.g. A sunset photo at the Grand Canyon'
   },
   {
@@ -84,7 +84,7 @@ const TOOLS: PremiumTool[] = [
     description: 'The perfect balance of visual breaks and searchable tags for maximum reach.',
     icon: '✨',
     category: 'content',
-    promptTemplate: 'Suggest the perfect emojis and 5 strategic hashtags for this caption: ',
+    promptTemplate: 'Analyze this caption and provide two separate lists: "Recommended Emojis" and "Strategic Hashtags". Group hashtags by reach (Broad, Niche, Trending) for: ',
     inputPlaceholder: 'Paste your draft caption here...'
   },
   {
@@ -93,7 +93,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Generate the crucial first two lines that stop the scroll.',
     icon: '🪝',
     category: 'content',
-    promptTemplate: 'Generate 5 scroll-stopping 2-line hooks for a Facebook post about: ',
+    promptTemplate: 'Generate 5 high-converting 2-line hooks. Number them 1-5 and provide a brief "Why it works" note for each hook related to: ',
     inputPlaceholder: 'e.g. Why most small businesses fail in year one'
   },
   {
@@ -102,7 +102,7 @@ const TOOLS: PremiumTool[] = [
     description: 'Plan out a 3-part Facebook Story (Hook, Value, CTA) in seconds.',
     icon: '🤳',
     category: 'content',
-    promptTemplate: 'Create a 3-part Facebook Story script for: ',
+    promptTemplate: 'Script a 3-part Facebook Story. Use clear headers for "Frame 1 (The Hook)", "Frame 2 (The Meat)", and "Frame 3 (The CTA)". Include visual suggestions for each for: ',
     inputPlaceholder: 'e.g. Sharing a "Day in the Life" as a freelance coder'
   },
   {
@@ -111,10 +111,66 @@ const TOOLS: PremiumTool[] = [
     description: 'Rewrite bland captions into punchy, clear, and engaging Facebook posts.',
     icon: '🪄',
     category: 'content',
-    promptTemplate: 'Rewrite this caption to be more engaging and readable for Facebook: ',
+    promptTemplate: 'Improve this caption. Provide a "Before & After" comparison, followed by a list of "Specific Improvements" made to readability and flow for: ',
     inputPlaceholder: 'Paste your "boring" caption here...'
   }
 ];
+
+// Helper to render text with basic styling without a markdown library
+const StructuredResultRenderer: React.FC<{ text: string }> = ({ text }) => {
+  const lines = text.split('\n');
+  
+  return (
+    <div className="space-y-4">
+      {lines.map((line, index) => {
+        const trimmed = line.trim();
+        if (!trimmed) return <div key={index} className="h-2" />;
+
+        // Header detection (e.g., "Week 1:", "## Header", "Header:")
+        const isHeader = trimmed.endsWith(':') || trimmed.startsWith('##') || /^[A-Z\s]+$/.test(trimmed);
+        
+        // List item detection
+        const isListItem = trimmed.startsWith('-') || trimmed.startsWith('•') || /^\d+\./.test(trimmed);
+
+        if (isHeader) {
+          return (
+            <h4 key={index} className="text-lg font-black text-slate-900 mt-6 mb-2 border-l-4 border-[#1877F2] pl-3">
+              {trimmed.replace(/^#+\s*/, '')}
+            </h4>
+          );
+        }
+
+        if (isListItem) {
+          return (
+            <div key={index} className="flex gap-3 pl-2 py-0.5">
+              <span className="text-[#1877F2] font-bold">•</span>
+              <p className="text-slate-700 font-medium leading-relaxed flex-1">
+                {renderBoldText(trimmed.replace(/^[-•]\s*/, '').replace(/^\d+\.\s*/, ''))}
+              </p>
+            </div>
+          );
+        }
+
+        return (
+          <p key={index} className="text-slate-700 font-medium leading-relaxed">
+            {renderBoldText(trimmed)}
+          </p>
+        );
+      })}
+    </div>
+  );
+};
+
+// Simple bold text renderer for content between **
+const renderBoldText = (text: string) => {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="font-extrabold text-slate-900">{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+};
 
 const PremiumSuite: React.FC = () => {
   const [activeTool, setActiveTool] = useState<PremiumTool | null>(null);
@@ -169,76 +225,96 @@ const PremiumSuite: React.FC = () => {
           </div>
 
           <div className="space-y-6">
-            <textarea
-              className="w-full h-32 p-6 bg-white/50 border-2 border-slate-100 rounded-3xl focus:border-[#1877F2] focus:ring-0 outline-none transition-all text-lg font-medium resize-none placeholder:text-slate-300"
-              placeholder={activeTool.inputPlaceholder}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
+            <div className="relative group">
+              <textarea
+                className="w-full h-32 p-6 bg-white/50 border-2 border-slate-100 rounded-3xl focus:border-[#1877F2] focus:ring-0 outline-none transition-all text-lg font-medium resize-none placeholder:text-slate-300 group-hover:border-slate-200"
+                placeholder={activeTool.inputPlaceholder}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <div className="absolute bottom-4 right-4 text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+                AI Ready
+              </div>
+            </div>
+            
             <button
               onClick={runTool}
               disabled={loading || !input.trim()}
-              className="w-full h-16 glossy-button text-white font-bold text-lg rounded-2xl flex items-center justify-center gap-3 shine-effect disabled:opacity-50"
+              className="w-full h-16 glossy-button text-white font-bold text-lg rounded-2xl flex items-center justify-center gap-3 shine-effect disabled:opacity-50 shadow-lg shadow-blue-100"
             >
               {loading ? (
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0.2s]"></div>
-                  <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                <div className="flex gap-1.5 items-center">
+                  <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce"></div>
+                  <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                  <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                  <span className="ml-2">Analyzing...</span>
                 </div>
               ) : (
                 <>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  Generate with AI
+                  Generate Professional Report
                 </>
               )}
             </button>
 
             {result && (
-              <div className="mt-8 p-8 bg-white/80 rounded-[2rem] border border-blue-50 shadow-inner animate-in slide-in-from-top-4 duration-500">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-black text-slate-400 uppercase tracking-widest">AI Analysis Result</span>
-                  <button 
-                    onClick={() => navigator.clipboard.writeText(result)}
-                    className="text-xs font-bold text-[#1877F2] hover:underline"
-                  >
-                    Copy to clipboard
-                  </button>
-                </div>
-                <div className="prose prose-slate max-w-none">
-                  {result.split('\n').map((line, i) => (
-                    <p key={i} className="text-slate-700 font-medium whitespace-pre-wrap leading-relaxed mb-2">
-                      {line}
-                    </p>
-                  ))}
+              <div className="mt-10 animate-in slide-in-from-top-4 duration-500">
+                <div className="p-1 glass bg-white/40 rounded-[2.5rem] border-white overflow-hidden shadow-sm">
+                   <div className="bg-white/90 p-8 md:p-12 rounded-[2.3rem] shadow-inner">
+                    <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-50">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Generated Strategy</span>
+                      </div>
+                      <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText(result);
+                          alert('Content copied to clipboard!');
+                        }}
+                        className="flex items-center gap-2 text-xs font-bold text-[#1877F2] hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        Copy Report
+                      </button>
+                    </div>
+                    
+                    <StructuredResultRenderer text={result} />
+                    
+                    <div className="mt-12 pt-8 border-t border-slate-50 flex items-center justify-center">
+                       <p className="text-[10px] text-slate-300 font-bold uppercase tracking-widest">
+                         End of Strategy Report • Generated by FB Media Downloader Premium
+                       </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {TOOLS.map((tool) => (
             <div 
               key={tool.id}
               onClick={() => setActiveTool(tool)}
-              className="glass p-8 rounded-[2.5rem] border-white/60 shadow-xl shadow-slate-100/30 hover:scale-[1.03] transition-all duration-300 group cursor-pointer flex flex-col justify-between"
+              className="glass p-10 rounded-[2.8rem] border-white/60 shadow-xl shadow-slate-100/30 hover:scale-[1.03] transition-all duration-300 group cursor-pointer flex flex-col justify-between hover:shadow-blue-100/50"
             >
               <div>
-                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm border border-slate-50 group-hover:scale-110 transition-transform">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-4xl mb-8 shadow-sm border border-slate-50 group-hover:scale-110 group-hover:rotate-3 transition-transform">
                   {tool.icon}
                 </div>
-                <h3 className="font-extrabold text-slate-900 text-xl mb-3">{tool.title}</h3>
-                <p className="text-slate-500 font-medium text-sm leading-relaxed mb-4">{tool.description}</p>
+                <h3 className="font-extrabold text-slate-900 text-2xl mb-4 group-hover:text-[#1877F2] transition-colors">{tool.title}</h3>
+                <p className="text-slate-500 font-medium text-base leading-relaxed mb-4">{tool.description}</p>
               </div>
-              <div className="flex items-center justify-between mt-6">
+              <div className="flex items-center justify-between mt-8">
                 <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{tool.category}</span>
-                <span className="text-[#1877F2] font-bold text-sm group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                  Try Tool 
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                <span className="glossy-button text-white w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7-7 7" />
                   </svg>
                 </span>
               </div>
