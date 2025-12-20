@@ -203,6 +203,37 @@ const App: React.FC = () => {
             {!result && !loading && (
               <div className="animate-in fade-in duration-1000">
                 <Features />
+                
+                {/* NEW: Creator Suite CTA Section */}
+                <div className="mt-28 relative overflow-hidden glass rounded-[3rem] p-8 md:p-14 border-white/60 shadow-2xl shadow-blue-50/50 group">
+                  <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl group-hover:bg-blue-200/40 transition-colors"></div>
+                  <div className="relative flex flex-col md:flex-row items-center justify-between gap-10">
+                    <div className="flex-1 text-center md:text-left">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 text-amber-700 text-[10px] font-black uppercase tracking-widest rounded-full mb-6 border border-amber-200">
+                        <span>★</span>
+                        New Tools Available
+                      </div>
+                      <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
+                        Go Beyond Downloading with <span className="text-[#1877F2]">Creator Suite</span>
+                      </h2 >
+                      <p className="text-slate-500 font-medium text-lg leading-relaxed max-w-xl">
+                        Unlock over 15+ AI-powered professional tools. From viral caption generators to toxic comment detectors, we have everything to scale your Facebook presence.
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0">
+                      <button 
+                        onClick={() => setView('premium')}
+                        className="glossy-button px-10 py-5 rounded-2xl text-white font-black text-lg shadow-xl shadow-blue-200 hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                      >
+                        Explore Creator Suite
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="mt-28 glass rounded-[2.5rem] p-12 text-center border-white/40 shadow-xl shadow-slate-100/50">
                   <h2 className="text-3xl font-black text-slate-900 mb-6">Unrivaled Compatibility</h2>
                   <div className="flex flex-wrap justify-center gap-4 text-sm font-bold">
