@@ -16,18 +16,18 @@
     }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #f8fafc;
+      background-color: #7effd4;
       background-image: 
-        radial-gradient(at 0% 0%, hsla(214,100%,96%,1) 0, transparent 50%), 
-        radial-gradient(at 50% 0%, hsla(210,100%,94%,1) 0, transparent 50%), 
-        radial-gradient(at 100% 0%, hsla(214,100%,96%,1) 0, transparent 50%);
+        radial-gradient(at 0% 0%, hsla(160, 100%, 95%, 0.4) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, hsla(170, 100%, 90%, 0.3) 0, transparent 50%), 
+        radial-gradient(at 100% 0%, hsla(180, 100%, 95%, 0.4) 0, transparent 50%);
       background-attachment: fixed;
     }
     .glass {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
     }
     .glossy-button {
       background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%), var(--fb-blue);
@@ -39,7 +39,7 @@
       box-shadow: 0 8px 25px -1px rgba(24, 119, 242, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
     }
     .text-glow {
-      text-shadow: 0 0 20px rgba(24, 119, 242, 0.2);
+      text-shadow: 0 0 20px rgba(24, 119, 242, 0.15);
     }
     @keyframes shine {
       from { transform: translateX(-100%); }
@@ -72,7 +72,7 @@
 }
 </script>
 </head>
-<body class="min-h-screen text-slate-900 selection:bg-blue-100 selection:text-blue-700">
+<body class="min-h-screen text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
   <div id="root"></div>
 </body>
 </html>
