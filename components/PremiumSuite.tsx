@@ -100,7 +100,7 @@ const TOOLS: PremiumTool[] = [
     id: 'hook',
     title: 'Facebook Hook Gen',
     description: 'Generate the crucial first two lines that stop the scroll.',
-    icon: '🪝',
+    icon: '🧲',
     category: 'content',
     promptTemplate: 'Generate 5 high-converting 2-line hooks. Number them 1-5 and provide a brief "Why it works" note for each hook related to: ',
     inputPlaceholder: 'e.g. Why most small businesses fail in year one'
@@ -246,7 +246,7 @@ const PremiumSuite: React.FC = () => {
         <div className="max-w-4xl mx-auto glass rounded-[3rem] p-8 md:p-12 border-white/60 dark:border-white/10 shadow-2xl shadow-blue-100/40 dark:shadow-none">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-slate-50 dark:border-slate-700">
+              <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center text-4xl shadow-md border border-slate-50 dark:border-slate-700">
                 {activeTool.icon}
               </div>
               <div>
@@ -346,7 +346,7 @@ const PremiumSuite: React.FC = () => {
               className="glass p-10 rounded-[2.8rem] border-white/60 dark:border-white/10 shadow-xl shadow-slate-100/30 dark:shadow-none hover:scale-[1.03] transition-all duration-300 group cursor-pointer flex flex-col justify-between hover:shadow-blue-100/50 dark:hover:bg-slate-800/60"
             >
               <div>
-                <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center text-4xl mb-8 shadow-sm border border-slate-50 dark:border-slate-700 group-hover:scale-110 group-hover:rotate-3 transition-transform">
+                <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center text-4xl mb-8 shadow-md border border-slate-50 dark:border-slate-700 group-hover:scale-110 group-hover:rotate-3 transition-transform">
                   {tool.icon}
                 </div>
                 <h3 className="font-extrabold text-slate-900 dark:text-white text-2xl mb-4 group-hover:text-[#1877F2] dark:group-hover:text-blue-400 transition-colors">{tool.title}</h3>
