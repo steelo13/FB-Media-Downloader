@@ -1,0 +1,5 @@
+{
+  "name": "FB Media Downloader",
+  "description": "A premium Facebook media downloader that extracts videos, reels, and images from public links using AI-powered link analysis.",
+  "requestFramePermissions": []
+}
