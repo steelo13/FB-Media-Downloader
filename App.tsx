@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Features from './components/Features';
 import ResultCard from './components/ResultCard';
@@ -17,7 +17,22 @@ const App: React.FC = () => {
   const [result, setResult] = useState<ExtractionResult | null>(null);
   const [clipboardSuggestion, setClipboardSuggestion] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('darkMode') === 'true';
+    }
+    return false;
+  });
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('darkMode', String(darkMode));
+  }, [darkMode]);
 
   const handleExtract = useCallback(async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -114,14 +129,14 @@ const App: React.FC = () => {
         return (
           <>
             <div className="text-center max-w-3xl mx-auto mb-16 space-y-6">
-              <div className="inline-block px-4 py-1.5 bg-blue-50 text-[#1877F2] text-xs font-bold rounded-full uppercase tracking-widest border border-blue-100 mb-2">
+              <div className="inline-block px-4 py-1.5 bg-blue-50 dark:bg-blue-900/30 text-[#1877F2] dark:text-blue-400 text-xs font-bold rounded-full uppercase tracking-widest border border-blue-100 dark:border-blue-800 mb-2">
                 AI-Powered Extraction
               </div>
-              <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tight leading-[1.1]">
+              <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
                 Save Any Facebook <br />
                 <span className="text-[#1877F2] text-glow">Media Instantly</span>
               </h1>
-              <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
+              <p className="text-xl text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto">
                 Experience the next generation of content saving. Fast, secure, and high-definition downloads with zero intrusive ads.
               </p>
             </div>
@@ -131,7 +146,7 @@ const App: React.FC = () => {
                 <div className="absolute -top-14 right-0 z-20 animate-in fade-in slide-in-from-bottom-2 duration-500">
                   <button
                     onClick={handlePasteSuggestion}
-                    className="glass flex items-center gap-2 text-[#1877F2] px-5 py-2.5 rounded-2xl text-sm font-bold hover:bg-white transition-all shadow-xl shadow-blue-100/50 border-blue-100"
+                    className="glass flex items-center gap-2 text-[#1877F2] dark:text-blue-400 px-5 py-2.5 rounded-2xl text-sm font-bold hover:bg-white dark:hover:bg-slate-800 transition-all shadow-xl shadow-blue-100/50 dark:shadow-none border-blue-100 dark:border-blue-900"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -141,22 +156,22 @@ const App: React.FC = () => {
                 </div>
               )}
 
-              <div className={`absolute inset-0 -m-6 rounded-[2.5rem] border-4 border-dashed transition-all duration-500 pointer-events-none flex items-center justify-center z-30 ${isDragging ? 'border-[#1877F2] bg-blue-50/80 opacity-100 scale-100 backdrop-blur-md' : 'border-transparent opacity-0 scale-95'}`}>
+              <div className={`absolute inset-0 -m-6 rounded-[2.5rem] border-4 border-dashed transition-all duration-500 pointer-events-none flex items-center justify-center z-30 ${isDragging ? 'border-[#1877F2] bg-blue-50/80 dark:bg-blue-900/60 opacity-100 scale-100 backdrop-blur-md' : 'border-transparent opacity-0 scale-95'}`}>
                 <div className="text-center">
-                  <div className="w-20 h-20 glossy-button rounded-3xl flex items-center justify-center text-white mx-auto mb-6 shadow-2xl shadow-blue-300 animate-bounce">
+                  <div className="w-20 h-20 glossy-button rounded-3xl flex items-center justify-center text-white mx-auto mb-6 shadow-2xl shadow-blue-300 dark:shadow-blue-900 animate-bounce">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                     </svg>
                   </div>
-                  <p className="text-2xl font-black text-slate-900">Release to analyze</p>
-                  <p className="text-slate-500 font-medium mt-2">Extracting your media in high quality...</p>
+                  <p className="text-2xl font-black text-slate-900 dark:text-white">Release to analyze</p>
+                  <p className="text-slate-500 dark:text-slate-400 font-medium mt-2">Extracting your media in high quality...</p>
                 </div>
               </div>
 
-              <form onSubmit={handleExtract} className="relative z-10 flex flex-col md:flex-row gap-4 p-2 glass rounded-3xl shadow-2xl shadow-slate-200/50">
+              <form onSubmit={handleExtract} className="relative z-10 flex flex-col md:flex-row gap-4 p-2 glass rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50">
                 <div className="flex-grow relative">
                   <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-                    <svg className="h-6 w-6 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="h-6 w-6 text-slate-400 dark:text-slate-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -164,7 +179,7 @@ const App: React.FC = () => {
                     ref={inputRef}
                     type="text"
                     placeholder="Paste or drag Facebook link here..."
-                    className={`w-full h-16 pl-14 pr-6 bg-transparent rounded-2xl text-lg font-medium focus:outline-none transition-all placeholder:text-slate-400`}
+                    className={`w-full h-16 pl-14 pr-6 bg-transparent rounded-2xl text-lg font-medium focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-white`}
                     value={url}
                     onChange={(e) => {
                       setUrl(e.target.value);
@@ -205,8 +220,8 @@ const App: React.FC = () => {
                 <Features />
                 
                 {/* Supported Media Types Section */}
-                <div className="mt-28 glass rounded-[3rem] p-12 text-center border-white/60 shadow-xl shadow-slate-100/50">
-                  <h2 className="text-3xl font-black text-slate-900 mb-8">What You Can Download</h2>
+                <div className="mt-28 glass rounded-[3rem] p-12 text-center border-white/60 dark:border-white/10 shadow-xl shadow-slate-100/50 dark:shadow-none">
+                  <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-8">What You Can Download</h2>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                     {[
                       { name: 'Videos (SD / HD)', icon: '📹' },
@@ -214,34 +229,34 @@ const App: React.FC = () => {
                       { name: 'Images from posts', icon: '📸' },
                       { name: 'Public stories', icon: '🕒' }
                     ].map((item, idx) => (
-                      <div key={idx} className="bg-white/50 p-6 rounded-[2rem] border border-white shadow-sm flex flex-col items-center gap-3 group hover:bg-white transition-all duration-300">
+                      <div key={idx} className="bg-white/50 dark:bg-slate-800/40 p-6 rounded-[2rem] border border-white dark:border-white/5 shadow-sm flex flex-col items-center gap-3 group hover:bg-white dark:hover:bg-slate-800 transition-all duration-300">
                         <span className="text-4xl group-hover:scale-125 transition-transform duration-300">{item.icon}</span>
-                        <span className="text-slate-800 font-bold text-sm">{item.name}</span>
+                        <span className="text-slate-800 dark:text-slate-200 font-bold text-sm">{item.name}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Creator Suite CTA Section */}
-                <div className="mt-28 relative overflow-hidden glass rounded-[3rem] p-8 md:p-14 border-white/60 shadow-2xl shadow-blue-50/50 group">
-                  <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl group-hover:bg-blue-200/40 transition-colors"></div>
+                <div className="mt-28 relative overflow-hidden glass rounded-[3rem] p-8 md:p-14 border-white/60 dark:border-white/10 shadow-2xl shadow-blue-50/50 dark:shadow-none group">
+                  <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-100/30 dark:bg-blue-900/20 rounded-full blur-3xl group-hover:bg-blue-200/40 transition-colors"></div>
                   <div className="relative flex flex-col md:flex-row items-center justify-between gap-10">
                     <div className="flex-1 text-center md:text-left">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 text-amber-700 text-[10px] font-black uppercase tracking-widest rounded-full mb-6 border border-amber-200">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 text-[10px] font-black uppercase tracking-widest rounded-full mb-6 border border-amber-200 dark:border-amber-800">
                         <span>★</span>
                         New Tools Available
                       </div>
-                      <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
+                      <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
                         Go Beyond Downloading with <span className="text-[#1877F2]">Creator Suite</span>
                       </h2>
-                      <p className="text-slate-500 font-medium text-lg leading-relaxed max-w-xl">
+                      <p className="text-slate-500 dark:text-slate-400 font-medium text-lg leading-relaxed max-w-xl">
                         Unlock over 15+ AI-powered professional tools. From viral caption generators to toxic comment detectors, we have everything to scale your Facebook presence.
                       </p>
                     </div>
                     <div className="flex-shrink-0">
                       <button 
                         onClick={() => setView('premium')}
-                        className="glossy-button px-10 py-5 rounded-2xl text-white font-black text-lg shadow-xl shadow-blue-200 hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                        className="glossy-button px-10 py-5 rounded-2xl text-white font-black text-lg shadow-xl shadow-blue-200 dark:shadow-blue-900 hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
                       >
                         Explore Creator Suite
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -252,11 +267,11 @@ const App: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-28 glass rounded-[2.5rem] p-12 text-center border-white/40 shadow-xl shadow-slate-100/50">
-                  <h2 className="text-3xl font-black text-slate-900 mb-6">Unrivaled Compatibility</h2>
+                <div className="mt-28 glass rounded-[2.5rem] p-12 text-center border-white/40 dark:border-white/5 shadow-xl shadow-slate-100/50 dark:shadow-none">
+                  <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-6">Unrivaled Compatibility</h2>
                   <div className="flex flex-wrap justify-center gap-4 text-sm font-bold">
                     {['Public Reels', 'HD Video Clips', 'Watch Tab', 'Individual Photos', 'Carousel Posts', 'Stories'].map((type) => (
-                      <span key={type} className="px-6 py-3 bg-white/50 rounded-2xl text-slate-700 border border-white shadow-sm flex items-center gap-2">
+                      <span key={type} className="px-6 py-3 bg-white/50 dark:bg-slate-800/40 rounded-2xl text-slate-700 dark:text-slate-300 border border-white dark:border-white/5 shadow-sm flex items-center gap-2">
                         <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
@@ -270,15 +285,15 @@ const App: React.FC = () => {
 
             {loading && (
               <div className="mt-20 flex flex-col items-center">
-                <div className="w-full max-w-4xl glass rounded-[3rem] p-12 animate-pulse border-white/60">
+                <div className="w-full max-w-4xl glass rounded-[3rem] p-12 animate-pulse border-white/60 dark:border-white/10">
                   <div className="flex flex-col lg:flex-row gap-12">
-                    <div className="lg:w-1/2 aspect-video bg-slate-200/50 rounded-3xl"></div>
+                    <div className="lg:w-1/2 aspect-video bg-slate-200/50 dark:bg-slate-700/50 rounded-3xl"></div>
                     <div className="lg:w-1/2 space-y-6">
-                      <div className="h-10 bg-slate-200/50 rounded-xl w-3/4"></div>
-                      <div className="h-4 bg-slate-200/50 rounded-xl w-1/2"></div>
+                      <div className="h-10 bg-slate-200/50 dark:bg-slate-700/50 rounded-xl w-3/4"></div>
+                      <div className="h-4 bg-slate-200/50 dark:bg-slate-700/50 rounded-xl w-1/2"></div>
                       <div className="space-y-4 mt-10">
-                        <div className="h-16 bg-slate-100/50 rounded-2xl"></div>
-                        <div className="h-16 bg-slate-100/50 rounded-2xl"></div>
+                        <div className="h-16 bg-slate-100/50 dark:bg-slate-800/50 rounded-2xl"></div>
+                        <div className="h-16 bg-slate-100/50 dark:bg-slate-800/50 rounded-2xl"></div>
                       </div>
                     </div>
                   </div>
@@ -289,7 +304,7 @@ const App: React.FC = () => {
                     <div className="w-2 h-2 bg-[#1877F2] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
                     <div className="w-2 h-2 bg-[#1877F2] rounded-full animate-bounce"></div>
                   </div>
-                  <p className="text-slate-500 font-bold text-sm tracking-wide uppercase">AI analysis in progress</p>
+                  <p className="text-slate-500 dark:text-slate-400 font-bold text-sm tracking-wide uppercase">AI analysis in progress</p>
                 </div>
               </div>
             )}
@@ -304,23 +319,23 @@ const App: React.FC = () => {
 
   return (
     <div 
-      className="min-h-screen pb-20"
+      className="min-h-screen pb-20 transition-colors duration-500"
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
     >
-      <Navbar currentView={view} setView={setView} />
+      <Navbar currentView={view} setView={setView} darkMode={darkMode} toggleDarkMode={() => setDarkMode(!darkMode)} />
 
       <main className="max-w-6xl mx-auto px-4 py-16 md:py-28">
         {renderContent()}
 
-        <footer className="mt-40 pt-16 border-t border-slate-200">
+        <footer className="mt-40 pt-16 border-t border-slate-200 dark:border-slate-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-10">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 glossy-button rounded-xl flex items-center justify-center text-white">
                 <span className="font-bold text-xl">F</span>
               </div>
-              <span className="font-extrabold text-slate-900 text-xl tracking-tighter">FB Media <span className="text-[#1877F2]">Downloader</span></span>
+              <span className="font-extrabold text-slate-900 dark:text-white text-xl tracking-tighter">FB Media <span className="text-[#1877F2]">Downloader</span></span>
             </div>
             <div className="flex gap-10 text-sm font-bold text-slate-400">
               <button onClick={() => setView('downloader')} className="hover:text-[#1877F2] transition-colors">Downloader</button>
@@ -330,8 +345,8 @@ const App: React.FC = () => {
             </div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">© 2025 Premium Downloader Inc.</p>
           </div>
-          <div className="mt-16 p-10 glass rounded-[2.5rem] text-center text-xs text-slate-400 border border-white leading-relaxed">
-            <strong className="text-slate-600">Disclaimer:</strong> This tool is intended for personal archiving of public content. We do not host, store, or redistribute any data. All media remains the intellectual property of its respective creators and is streamed directly from source CDN.
+          <div className="mt-16 p-10 glass rounded-[2.5rem] text-center text-xs text-slate-400 border border-white dark:border-white/5 leading-relaxed">
+            <strong className="text-slate-600 dark:text-slate-300">Disclaimer:</strong> This tool is intended for personal archiving of public content. We do not host, store, or redistribute any data. All media remains the intellectual property of its respective creators and is streamed directly from source CDN.
           </div>
         </footer>
       </main>

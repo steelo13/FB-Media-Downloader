@@ -170,15 +170,12 @@ const StructuredResultRenderer: React.FC<{ text: string }> = ({ text }) => {
         const trimmed = line.trim();
         if (!trimmed) return <div key={index} className="h-4" />;
 
-        // Header detection (Headers like "Week 1:", "Monday:", "## Header", "Category:")
         const isHeader = trimmed.endsWith(':') || trimmed.startsWith('##') || /^[A-Z\s]{4,}$/.test(trimmed) || trimmed.startsWith('Day ') || trimmed.startsWith('Option ');
-        
-        // List item detection
         const isListItem = trimmed.startsWith('-') || trimmed.startsWith('•') || /^\d+[\.\)]/.test(trimmed);
 
         if (isHeader) {
           return (
-            <h4 key={index} className="text-xl font-black text-slate-900 mt-10 mb-4 border-l-4 border-[#1877F2] pl-4 bg-slate-50 py-2 rounded-r-lg">
+            <h4 key={index} className="text-xl font-black text-slate-900 dark:text-white mt-10 mb-4 border-l-4 border-[#1877F2] pl-4 bg-slate-50 dark:bg-slate-800/50 py-2 rounded-r-lg">
               {trimmed.replace(/^#+\s*/, '')}
             </h4>
           );
@@ -186,9 +183,9 @@ const StructuredResultRenderer: React.FC<{ text: string }> = ({ text }) => {
 
         if (isListItem) {
           return (
-            <div key={index} className="flex gap-4 pl-4 py-2 bg-white rounded-xl border border-slate-50 shadow-sm">
-              <span className="text-[#1877F2] font-black mt-0.5">→</span>
-              <p className="text-slate-700 font-medium leading-relaxed flex-1">
+            <div key={index} className="flex gap-4 pl-4 py-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-50 dark:border-slate-700 shadow-sm">
+              <span className="text-[#1877F2] dark:text-blue-400 font-black mt-0.5">→</span>
+              <p className="text-slate-700 dark:text-slate-200 font-medium leading-relaxed flex-1">
                 {renderBoldText(trimmed.replace(/^[-•]\s*/, '').replace(/^\d+[\.\)]\s*/, ''))}
               </p>
             </div>
@@ -196,7 +193,7 @@ const StructuredResultRenderer: React.FC<{ text: string }> = ({ text }) => {
         }
 
         return (
-          <p key={index} className="text-slate-600 font-medium leading-relaxed px-2">
+          <p key={index} className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed px-2">
             {renderBoldText(trimmed)}
           </p>
         );
@@ -209,7 +206,7 @@ const renderBoldText = (text: string) => {
   const parts = text.split(/(\*\*.*?\*\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} className="font-extrabold text-slate-900">{part.slice(2, -2)}</strong>;
+      return <strong key={i} className="font-extrabold text-slate-900 dark:text-white">{part.slice(2, -2)}</strong>;
     }
     return part;
   });
@@ -241,25 +238,25 @@ const PremiumSuite: React.FC = () => {
   return (
     <div className="animate-in fade-in duration-700">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-black text-slate-900 mb-4">Premium <span className="text-[#1877F2]">Creator Suite</span></h2>
-        <p className="text-slate-500 font-medium max-w-xl mx-auto">Advanced AI tools designed specifically for Facebook page managers and content creators.</p>
+        <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">Premium <span className="text-[#1877F2]">Creator Suite</span></h2>
+        <p className="text-slate-500 dark:text-slate-400 font-medium max-w-xl mx-auto">Advanced AI tools designed specifically for Facebook page managers and content creators.</p>
       </div>
 
       {activeTool ? (
-        <div className="max-w-4xl mx-auto glass rounded-[3rem] p-8 md:p-12 border-white/60 shadow-2xl shadow-blue-100/40">
+        <div className="max-w-4xl mx-auto glass rounded-[3rem] p-8 md:p-12 border-white/60 dark:border-white/10 shadow-2xl shadow-blue-100/40 dark:shadow-none">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-slate-50">
+              <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-slate-50 dark:border-slate-700">
                 {activeTool.icon}
               </div>
               <div>
-                <h3 className="text-2xl font-black text-slate-900">{activeTool.title}</h3>
-                <span className="text-xs font-bold text-[#1877F2] uppercase tracking-widest">{activeTool.category}</span>
+                <h3 className="text-2xl font-black text-slate-900 dark:text-white">{activeTool.title}</h3>
+                <span className="text-xs font-bold text-[#1877F2] dark:text-blue-400 uppercase tracking-widest">{activeTool.category}</span>
               </div>
             </div>
             <button 
               onClick={() => { setActiveTool(null); setResult(''); setInput(''); }}
-              className="p-3 hover:bg-slate-100 rounded-2xl text-slate-400 transition-all hover:text-red-500"
+              className="p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl text-slate-400 dark:text-slate-500 transition-all hover:text-red-500"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
@@ -270,12 +267,12 @@ const PremiumSuite: React.FC = () => {
           <div className="space-y-6">
             <div className="relative group">
               <textarea
-                className="w-full h-32 p-6 bg-white/50 border-2 border-slate-100 rounded-3xl focus:border-[#1877F2] focus:ring-0 outline-none transition-all text-lg font-medium resize-none placeholder:text-slate-300 group-hover:border-slate-200 shadow-sm"
+                className="w-full h-32 p-6 bg-white/50 dark:bg-slate-800/40 border-2 border-slate-100 dark:border-slate-700 rounded-3xl focus:border-[#1877F2] focus:ring-0 outline-none transition-all text-lg font-medium resize-none placeholder:text-slate-300 dark:placeholder:text-slate-600 dark:text-white group-hover:border-slate-200 dark:group-hover:border-slate-600 shadow-sm"
                 placeholder={activeTool.inputPlaceholder}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
-              <div className="absolute bottom-4 right-4 text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+              <div className="absolute bottom-4 right-4 text-[10px] font-bold text-slate-300 dark:text-slate-600 uppercase tracking-widest">
                 AI Ready
               </div>
             </div>
@@ -283,7 +280,7 @@ const PremiumSuite: React.FC = () => {
             <button
               onClick={runTool}
               disabled={loading || !input.trim()}
-              className="w-full h-16 glossy-button text-white font-bold text-lg rounded-2xl flex items-center justify-center gap-3 shine-effect disabled:opacity-50 shadow-lg shadow-blue-100 active:scale-95"
+              className="w-full h-16 glossy-button text-white font-bold text-lg rounded-2xl flex items-center justify-center gap-3 shine-effect disabled:opacity-50 shadow-lg shadow-blue-100 dark:shadow-blue-900 active:scale-95"
             >
               {loading ? (
                 <div className="flex gap-1.5 items-center">
@@ -304,21 +301,21 @@ const PremiumSuite: React.FC = () => {
 
             {result && (
               <div className="mt-10 animate-in slide-in-from-top-6 duration-700">
-                <div className="p-1 glass bg-white/40 rounded-[2.8rem] border-white overflow-hidden shadow-2xl">
-                   <div className="bg-white/95 p-8 md:p-14 rounded-[2.6rem] shadow-inner">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 pb-6 border-b border-slate-100 gap-4">
+                <div className="p-1 glass bg-white/40 dark:bg-slate-900/40 rounded-[2.8rem] border-white dark:border-white/10 overflow-hidden shadow-2xl">
+                   <div className="bg-white/95 dark:bg-slate-900/95 p-8 md:p-14 rounded-[2.6rem] shadow-inner">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 pb-6 border-b border-slate-100 dark:border-slate-800 gap-4">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
                         <div>
-                          <span className="text-xs font-black text-slate-400 uppercase tracking-[0.25em] block">Report Generated</span>
-                          <span className="text-[10px] text-slate-300 font-bold uppercase tracking-wider">Analysis complete • Gemini Intelligence</span>
+                          <span className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.25em] block">Report Generated</span>
+                          <span className="text-[10px] text-slate-300 dark:text-slate-600 font-bold uppercase tracking-wider">Analysis complete • Gemini Intelligence</span>
                         </div>
                       </div>
                       <button 
                         onClick={() => {
                           navigator.clipboard.writeText(result);
                         }}
-                        className="flex items-center gap-2 text-xs font-bold text-[#1877F2] hover:bg-blue-50 px-5 py-2.5 rounded-xl transition-all active:scale-95 border border-blue-50 group"
+                        className="flex items-center gap-2 text-xs font-bold text-[#1877F2] dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 px-5 py-2.5 rounded-xl transition-all active:scale-95 border border-blue-50 dark:border-blue-900/50 group"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -329,8 +326,8 @@ const PremiumSuite: React.FC = () => {
                     
                     <StructuredResultRenderer text={result} />
                     
-                    <div className="mt-16 pt-8 border-t border-slate-50 flex items-center justify-center">
-                       <p className="text-[10px] text-slate-300 font-black uppercase tracking-[0.3em]">
+                    <div className="mt-16 pt-8 border-t border-slate-50 dark:border-slate-800 flex items-center justify-center">
+                       <p className="text-[10px] text-slate-300 dark:text-slate-600 font-black uppercase tracking-[0.3em]">
                          End of Content Intelligence Report
                        </p>
                     </div>
@@ -346,17 +343,17 @@ const PremiumSuite: React.FC = () => {
             <div 
               key={tool.id}
               onClick={() => setActiveTool(tool)}
-              className="glass p-10 rounded-[2.8rem] border-white/60 shadow-xl shadow-slate-100/30 hover:scale-[1.03] transition-all duration-300 group cursor-pointer flex flex-col justify-between hover:shadow-blue-100/50"
+              className="glass p-10 rounded-[2.8rem] border-white/60 dark:border-white/10 shadow-xl shadow-slate-100/30 dark:shadow-none hover:scale-[1.03] transition-all duration-300 group cursor-pointer flex flex-col justify-between hover:shadow-blue-100/50 dark:hover:bg-slate-800/60"
             >
               <div>
-                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-4xl mb-8 shadow-sm border border-slate-50 group-hover:scale-110 group-hover:rotate-3 transition-transform">
+                <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center text-4xl mb-8 shadow-sm border border-slate-50 dark:border-slate-700 group-hover:scale-110 group-hover:rotate-3 transition-transform">
                   {tool.icon}
                 </div>
-                <h3 className="font-extrabold text-slate-900 text-2xl mb-4 group-hover:text-[#1877F2] transition-colors">{tool.title}</h3>
-                <p className="text-slate-500 font-medium text-base leading-relaxed mb-4">{tool.description}</p>
+                <h3 className="font-extrabold text-slate-900 dark:text-white text-2xl mb-4 group-hover:text-[#1877F2] dark:group-hover:text-blue-400 transition-colors">{tool.title}</h3>
+                <p className="text-slate-500 dark:text-slate-400 font-medium text-base leading-relaxed mb-4">{tool.description}</p>
               </div>
               <div className="flex items-center justify-between mt-8">
-                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{tool.category}</span>
+                <span className="text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest">{tool.category}</span>
                 <span className="glossy-button text-white w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7-7 7" />

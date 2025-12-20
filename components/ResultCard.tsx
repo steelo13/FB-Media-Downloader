@@ -39,17 +39,15 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onReset }) => {
   const isVideo = result.type === MediaType.VIDEO || result.type === MediaType.REEL;
   const showDownloadAll = result.options.length > 1;
 
-  // Placeholder video for demo purposes since we don't have the real FB stream link
   const placeholderVideo = "https://cdn.pixabay.com/vimeo/328940142/landscape-22836.mp4?width=1280&hash=07f45c7e0c8b6a3867d79b6997d9e7943f211993";
 
   return (
     <div className={`w-full mx-auto mt-16 animate-in fade-in slide-in-from-bottom-8 duration-700 transition-all duration-500 ${isPreviewExpanded ? 'max-w-6xl' : 'max-w-5xl'}`}>
-      <div className="glass rounded-[3rem] shadow-2xl overflow-hidden border-white/60 shadow-blue-100/30">
+      <div className="glass rounded-[3rem] shadow-2xl overflow-hidden border-white/60 dark:border-white/10 shadow-blue-100/30 dark:shadow-none">
         <div className={`flex flex-col ${isPreviewExpanded ? 'lg:flex-col' : 'lg:flex-row'}`}>
           {/* Preview Section */}
           <div className={`relative bg-slate-900 transition-all duration-500 overflow-hidden ${isPreviewExpanded ? 'h-[70vh]' : 'lg:w-1/2 aspect-video lg:aspect-auto'}`}>
             
-            {/* Background Blur Effect */}
             <div 
               className="absolute inset-0 scale-110 blur-2xl opacity-50 transition-opacity duration-1000"
               style={{ 
@@ -90,7 +88,6 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onReset }) => {
               )}
             </div>
 
-            {/* Top Toolbar Controls */}
             <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-30">
               <span className="px-4 py-2 bg-white/30 backdrop-blur-md text-white text-xs font-black rounded-xl uppercase tracking-widest border border-white/20">
                 {result.type}
@@ -135,14 +132,14 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onReset }) => {
           </div>
 
           {/* Details & Downloads */}
-          <div className={`${isPreviewExpanded ? 'w-full' : 'lg:w-1/2'} p-10 flex flex-col justify-between bg-white/40 transition-all duration-500`}>
+          <div className={`${isPreviewExpanded ? 'w-full' : 'lg:w-1/2'} p-10 flex flex-col justify-between bg-white/40 dark:bg-slate-900/40 transition-all duration-500`}>
             <div>
               <div className="flex justify-between items-start mb-6">
                 <div className="flex-1 mr-4">
-                  <h2 className={`font-black text-slate-900 leading-tight mb-2 transition-all ${isPreviewExpanded ? 'text-4xl' : 'text-3xl'}`}>
+                  <h2 className={`font-black text-slate-900 dark:text-white leading-tight mb-2 transition-all ${isPreviewExpanded ? 'text-4xl' : 'text-3xl'}`}>
                     {result.title}
                   </h2>
-                  <p className="text-slate-500 font-medium text-sm leading-relaxed max-w-2xl">
+                  <p className="text-slate-500 dark:text-slate-400 font-medium text-sm leading-relaxed max-w-2xl">
                     "{result.description}"
                   </p>
                 </div>
@@ -150,7 +147,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onReset }) => {
                   <button 
                     onClick={handleShare}
                     title="Share media"
-                    className="p-3 bg-white hover:bg-blue-50 rounded-2xl text-slate-600 hover:text-[#1877F2] transition-all border border-slate-100 hover:border-blue-100 shadow-sm group"
+                    className="p-3 bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-2xl text-slate-600 dark:text-slate-300 hover:text-[#1877F2] dark:hover:text-blue-400 transition-all border border-slate-100 dark:border-slate-700 shadow-sm group"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -158,7 +155,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onReset }) => {
                   </button>
                   <button 
                     onClick={onReset}
-                    className="p-3 bg-white hover:bg-slate-50 rounded-2xl text-slate-400 hover:text-slate-900 transition-all border border-slate-100 shadow-sm"
+                    className="p-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-2xl text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all border border-slate-100 dark:border-slate-700 shadow-sm"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
@@ -169,11 +166,11 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onReset }) => {
 
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Extraction Options</h4>
+                  <h4 className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Extraction Options</h4>
                   {showDownloadAll && (
                     <button 
                       onClick={handleDownloadAll}
-                      className="text-xs font-bold text-[#1877F2] hover:bg-[#1877F2] hover:text-white flex items-center gap-2 px-4 py-2 bg-blue-50/50 rounded-xl border border-blue-100 transition-all active:scale-95"
+                      className="text-xs font-bold text-[#1877F2] dark:text-blue-400 hover:bg-[#1877F2] hover:text-white flex items-center gap-2 px-4 py-2 bg-blue-50/50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900 transition-all active:scale-95"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -185,10 +182,10 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onReset }) => {
 
                 <div className={`grid gap-4 ${isPreviewExpanded ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
                   {result.options.map((opt, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-5 bg-white rounded-[1.5rem] border border-slate-100 hover:border-blue-200 transition-all hover:shadow-xl hover:shadow-blue-100/30 group">
+                    <div key={idx} className="flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-[1.5rem] border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900 transition-all hover:shadow-xl hover:shadow-blue-100/30 dark:hover:shadow-none group">
                       <div>
-                        <div className="font-black text-slate-900 text-lg group-hover:text-[#1877F2] transition-colors">{opt.quality}</div>
-                        <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">{opt.format} • {opt.size || 'Auto Size'}</div>
+                        <div className="font-black text-slate-900 dark:text-white text-lg group-hover:text-[#1877F2] dark:group-hover:text-blue-400 transition-colors">{opt.quality}</div>
+                        <div className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">{opt.format} • {opt.size || 'Auto Size'}</div>
                       </div>
                       <button className="glossy-button text-white px-7 py-3 rounded-2xl font-black text-sm transition-all active:scale-95 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -202,8 +199,8 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onReset }) => {
               </div>
             </div>
 
-            <div className="mt-10 p-6 rounded-2xl bg-blue-50/50 border border-blue-100/50">
-              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest text-center leading-relaxed">
+            <div className="mt-10 p-6 rounded-2xl bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100/50 dark:border-blue-900/30">
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-center leading-relaxed">
                 Premium extraction complete. AI detected {result.type.toLowerCase()} format and prepared high-bitrate output.
               </p>
             </div>
