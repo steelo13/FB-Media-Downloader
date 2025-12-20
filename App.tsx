@@ -204,7 +204,25 @@ const App: React.FC = () => {
               <div className="animate-in fade-in duration-1000">
                 <Features />
                 
-                {/* NEW: Creator Suite CTA Section */}
+                {/* Supported Media Types Section */}
+                <div className="mt-28 glass rounded-[3rem] p-12 text-center border-white/60 shadow-xl shadow-slate-100/50">
+                  <h2 className="text-3xl font-black text-slate-900 mb-8">What You Can Download</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {[
+                      { name: 'Videos (SD / HD)', icon: '📹' },
+                      { name: 'Reels', icon: '⚡' },
+                      { name: 'Images from posts', icon: '📸' },
+                      { name: 'Public stories', icon: '🕒' }
+                    ].map((item, idx) => (
+                      <div key={idx} className="bg-white/50 p-6 rounded-[2rem] border border-white shadow-sm flex flex-col items-center gap-3 group hover:bg-white transition-all duration-300">
+                        <span className="text-4xl group-hover:scale-125 transition-transform duration-300">{item.icon}</span>
+                        <span className="text-slate-800 font-bold text-sm">{item.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Creator Suite CTA Section */}
                 <div className="mt-28 relative overflow-hidden glass rounded-[3rem] p-8 md:p-14 border-white/60 shadow-2xl shadow-blue-50/50 group">
                   <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl group-hover:bg-blue-200/40 transition-colors"></div>
                   <div className="relative flex flex-col md:flex-row items-center justify-between gap-10">
@@ -215,7 +233,7 @@ const App: React.FC = () => {
                       </div>
                       <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
                         Go Beyond Downloading with <span className="text-[#1877F2]">Creator Suite</span>
-                      </h2 >
+                      </h2>
                       <p className="text-slate-500 font-medium text-lg leading-relaxed max-w-xl">
                         Unlock over 15+ AI-powered professional tools. From viral caption generators to toxic comment detectors, we have everything to scale your Facebook presence.
                       </p>
