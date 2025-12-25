@@ -25,6 +25,11 @@ const App: React.FC = () => {
   });
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Scroll to top whenever the view changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [view]);
+
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -250,7 +255,7 @@ const App: React.FC = () => {
                         Professional <span className="text-[#1877F2]">Creator Suite</span>
                       </h2>
                       <p className="text-slate-800 dark:text-slate-100 font-bold text-xl leading-relaxed max-w-xl opacity-90">
-                        Unlock 15+ AI-powered professional tools. From viral caption generators to sentiment analysis, scale your social presence effortlessly.
+                        Unlock 50+ AI-powered professional tools. From viral caption generators to sentiment analysis, scale your social presence effortlessly.
                       </p>
                     </div>
                     <div className="flex-shrink-0">

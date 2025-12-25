@@ -30,7 +30,7 @@ export interface PremiumTool {
   title: string;
   description: string;
   icon: string;
-  category: 'moderation' | 'analytics' | 'content';
+  category: 'moderation' | 'analytics' | 'content' | 'extraction' | 'growth' | 'marketing';
   promptTemplate: string;
   inputPlaceholder: string;
 }
